@@ -16,10 +16,10 @@ app = FastAPI()
 # model = pickle.load(open('./model.pkl','rb'))
 # model = mlflow.sklearn.load_model("models:/LGBM_Hyperopt_specificity/1")
 
-# model_path = os.path.join(os.getenv('AZUREML_MODEL_DIR'), 'finalized_model.pkl')
-# model = pickle.load(model_path)
+# model_path = os.path.join(os.getenv('AZUREML_MODEL_DIR'), 'finalized_model.sav')
+# model = joblib.load(model_path)
 # model = pickle.load(open('finalized_model.pkl','rb'))
-filename = 'finalized_model.sav'
+filename = './finalized_model.sav'
 model = joblib.load(filename)
 
 
@@ -40,8 +40,8 @@ def presentation():
 @app.post('/predict')
 def predict_(input_sk_id :Input_model):
     sk_id = dict(input_sk_id)['sk_id']
-    # if sk_id not in id_list:
-    #     return {'ERROR' : "Client ID not found in the client's list"}
+    if sk_id not in id_list:
+        return {'ERROR' : "Client ID not found"}
     y_pred = model.predict(X_test.loc[X_test.index == sk_id])
     y_pred_proba = model.predict_proba(X_test.loc[X_test.index == sk_id])
     return {'costumer_id':sk_id,
