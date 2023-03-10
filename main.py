@@ -4,7 +4,7 @@ import numpy as np
 import pickle
 from pydantic import BaseModel
 import os
-# import joblib
+import joblib
 # import mlflow
 
 
@@ -16,9 +16,12 @@ app = FastAPI()
 # model = pickle.load(open('./model.pkl','rb'))
 # model = mlflow.sklearn.load_model("models:/LGBM_Hyperopt_specificity/1")
 
-model_path = os.path.join(os.getenv('AZUREML_MODEL_DIR'), 'finalized_model.pkl')
-model = pickle.load(model_path)
+# model_path = os.path.join(os.getenv('AZUREML_MODEL_DIR'), 'finalized_model.pkl')
+# model = pickle.load(model_path)
 # model = pickle.load(open('finalized_model.pkl','rb'))
+filename = 'finalized_model.sav'
+model = joblib.load(filename)
+
 
 X_test = pd.read_csv("./X_test_sample.csv",index_col='SK_ID_CURR')
 id_list = X_test.index.tolist()
