@@ -8,7 +8,6 @@ class Input_model(BaseModel):
     sk_id : int
 
 app = FastAPI()
-
 with open('./model.pkl', 'rb') as md:
     model = pickle.load(md)
 
@@ -41,5 +40,3 @@ def feature_importance(input_sk_id :Input_model):
     if sk_id not in id_list:
         return f"ERROR {sk_id} not in the list of clients"
     return dict(zip(X_test.columns,shap_values_dict[sk_id]))
-    
-    
