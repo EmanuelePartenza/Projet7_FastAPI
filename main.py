@@ -8,6 +8,7 @@ class Input_model(BaseModel):
     sk_id : int
 
 app = FastAPI()
+
 with open('./model.pkl', 'rb') as md:
     model = pickle.load(md)
 
